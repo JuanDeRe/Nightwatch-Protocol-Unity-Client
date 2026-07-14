@@ -24,6 +24,8 @@ namespace Nightwatch.Client.Networking
         public event Action<string> OnConnectionError;
         public event Action<PlayerMovedEvent> OnPlayerMoved;
         public event Action<MatchSnapshotEvent> OnMatchSnapshot;
+        public event Action<DoorStateChangedEvent> OnDoorStateChanged;
+        public event Action<ActiveCameraChangedEvent> OnActiveCameraChanged;
 
         public async Task ConnectAsync()
         {
@@ -100,6 +102,8 @@ namespace Nightwatch.Client.Networking
 
             var json = JsonUtility.ToJson(command);
 
+            Debug.Log($"Sending MoveCommand: {json}");
+
             await _webSocket.SendText(json);
         }
 
@@ -116,6 +120,25 @@ namespace Nightwatch.Client.Networking
             }
 
             _webSocket = null;
+        }
+
+        public async Task SendDoorStateAsync(string doorId,bool isClosed)
+        {
+            if (!IsConnected)
+            {
+                return;
+            }
+
+            var message = new SetDoorStateMessage
+            {
+                matchId = SessionManager.MatchId,
+                doorId = doorId,
+                isClosed = isClosed
+            };
+
+            var json = JsonUtility.ToJson(message);
+
+            await _webSocket.SendText(json);
         }
 
         private void HandleMessage(string json)
@@ -162,6 +185,24 @@ namespace Nightwatch.Client.Networking
                     OnMatchSnapshot?.Invoke(snapshot);
                     break;
                 }
+                case "DoorStateChanged":
+                {
+                    var doorEvent =
+                        JsonUtility.FromJson<DoorStateChangedEvent>(json);
+
+                    OnDoorStateChanged?.Invoke(doorEvent);
+                    break;
+                }
+                case "ActiveCameraChanged":
+                {
+                    var cameraEvent =
+                        JsonUtility.FromJson<ActiveCameraChangedEvent>(
+                            json
+                        );
+
+                    OnActiveCameraChanged?.Invoke(cameraEvent);
+                    break;
+                }
 
                 default:
                     Debug.LogWarning(
@@ -169,6 +210,27 @@ namespace Nightwatch.Client.Networking
                     );
                     break;
             }
+        }
+        public async Task SendChangeCameraAsync(string cameraId)
+        {
+            if (!IsConnected)
+            {
+                return;
+            }
+
+            var message = new ChangeCameraMessage
+            {
+                matchId = SessionManager.MatchId,
+                cameraId = cameraId
+            };
+
+            var json = JsonUtility.ToJson(message);
+
+            await _webSocket.SendText(json);
+        }
+        public Task CloseCameraMonitorAsync()
+        {
+            return SendChangeCameraAsync(null);
         }
 
         private async void OnDestroy()

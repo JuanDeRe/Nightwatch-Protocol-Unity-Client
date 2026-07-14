@@ -11,5 +11,7 @@ namespace Nightwatch.Client.Contracts
         public int durationSeconds;
         public string startedAtUtc;
         public MatchSnapshotPlayer[] players;
+        public MatchSnapshotDoor[] doors;
+        public string activeCameraId;
     }
 }

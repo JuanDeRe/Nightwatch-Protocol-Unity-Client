@@ -5,10 +5,6 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using Nightwatch.Client.Contracts;
 using Nightwatch.Client.Networking;
-using Nightwatch.Client.Session;
-using TMPro;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 
