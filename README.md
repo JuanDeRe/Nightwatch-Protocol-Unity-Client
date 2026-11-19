@@ -12,7 +12,11 @@ The full player journey runs against the real backend:
 5. A **shared match clock** (12 AM → 6 AM) driven by the server's start time, so every player sees the same time
 
 ## 🎥 Gameplay
-[![Nightwatch Protocol Demo](docs/demo-thumbnail.png)](https://youtu.be/gWeziQBm-as)
+
+
+[![Nightwatch Protocol Demo](https://github.com/user-attachments/assets/1dffb5df-e495-46db-b267-ea069ef7192b)](https://youtu.be/gWeziQBm-as)
+
+**Click to watch video!!**
 
 ## Structure (`Assets/Scripts`)
 | Folder | Purpose |
