@@ -11,6 +11,9 @@ The full player journey runs against the real backend:
 4. See everything **synchronized in real time**: player movement, doors, item collection, security cameras and the other players
 5. A **shared match clock** (12 AM → 6 AM) driven by the server's start time, so every player sees the same time
 
+## 🎥 Gameplay
+[![Nightwatch Protocol Demo](docs/demo-thumbnail.png)](https://youtu.be/gWeziQBm-as)
+
 ## Structure (`Assets/Scripts`)
 | Folder | Purpose |
 |---|---|
